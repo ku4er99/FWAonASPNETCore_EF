@@ -1,7 +1,23 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="htmp5shablloon\**" />
+    <Content Remove="htmp5shablloon\**" />
+    <EmbeddedResource Remove="htmp5shablloon\**" />
+    <None Remove="htmp5shablloon\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\" />
+    <Folder Include="Areas\Views\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="Domain\" />
+    <Folder Include="Models\ViewComponents\" />
+    <Folder Include="Service\" />
+  </ItemGroup>
 
 </Project>
