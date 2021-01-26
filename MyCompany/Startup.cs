@@ -7,15 +7,59 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using MyCompany.Domain;
+using MyCompany.Domain.Repositories.Abstract;
+using MyCompany.Domain.Repositories.EntityFramework;
+using MyCompany.Service;
 
 namespace MyCompany
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+        public Startup(IConfiguration configuration) => Configuration = configuration;
+
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews() // Добавляем поддержку контроллеров и представлений (MVC)
+            // Подключаем кофиг из appsettings.json
+            Configuration.Bind("Project", new Config()); 
+
+            // Подключаем нужный функционал приложения в качестве сервисов (функциональная возможность смены системы связи с бд)
+            services.AddTransient<ITextFieldsRepository, EFTextFieldsRepository>();// Транзитивность запроса означает, что в рамках одного http запроса может быть создано несколько таких объектов
+            services.AddTransient<IServiceItemsRepository, EFServiceItemsRepository>();
+            services.AddTransient<DataManager>();
+
+            // Подключаем контекст базы данных
+            services.AddDbContext<AppDbContext>(x => x.UseSqlServer(Config.ConnectionString));
+
+            // Настраиваем identity систему (почитать про нее) // определение требований для системы безопасности
+            services.AddIdentity<IdentityUser, IdentityRole>(opts =>
+            {
+                opts.User.RequireUniqueEmail = true;
+                opts.Password.RequiredLength = 6;
+                opts.Password.RequireNonAlphanumeric = false;
+                opts.Password.RequireLowercase = false;
+                opts.Password.RequireUppercase = false;
+                opts.Password.RequireDigit = false;
+            }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
+            // Настраиваем autentification cookie
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.Name = "myCompanyAuth";
+                options.Cookie.HttpOnly = true;
+                options.LoginPath = "/account/login"; // По этому пути будет лежать акаунт контроллер для Админ панели
+                options.AccessDeniedPath = "/account/accessdenied";
+                options.SlidingExpiration = true;
+            });
+
+            // Добавляем поддержку контроллеров и представлений (MVC)
+            services.AddControllersWithViews() 
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0).AddSessionStateTempDataProvider(); // Выставляем совместимость с asp.net core 3.0 
         }
 
@@ -31,6 +75,11 @@ namespace MyCompany
             }
 
             app.UseRouting(); // Подключение системы маршрутизации
+
+            // подключаем аутентификацию и авторизацию (обязательно после подключения маршрутизации, но до ее определения!!!)
+            app.UseCookiePolicy();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseStaticFiles(); // Подключаем поддержку статичных файлов (css, js, etc..)
 
