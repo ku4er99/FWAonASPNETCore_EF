@@ -49,7 +49,7 @@ namespace MyCompany.Migrations
                         new
                         {
                             Id = "766c8fe1-3762-42b3-bd96-2c876a9628ec",
-                            ConcurrencyStamp = "9da82fc4-e2ab-41bf-b08d-0769452271fe",
+                            ConcurrencyStamp = "b33e12df-c18e-4981-8f95-b156e78bb8cb",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         });
@@ -148,13 +148,13 @@ namespace MyCompany.Migrations
                         {
                             Id = "d85aa196-fa1b-488b-89ce-af8aecbac1c7",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c74b3231-4084-4205-83f1-a9d94bc13557",
+                            ConcurrencyStamp = "3ec88499-6ab5-43b6-82a5-1bdde2e539c1",
                             Email = "my@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MY@EMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHN/wjIrs4t67kMOs5Se59y3JEZ/038bli57aNgKTRu8szAtvacsnAs+i5meiCsqEg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAB+HsTawC8qR/okGv6Cviwyac47jHvef1SLXk/+1s4I1L3tCsgzPzVIhGRW1pHEKw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -261,6 +261,9 @@ namespace MyCompany.Migrations
                     b.Property<string>("MetaDescription")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("MetaKeywords")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("MetaTitle")
                         .HasColumnType("nvarchar(max)");
 
@@ -298,6 +301,9 @@ namespace MyCompany.Migrations
                     b.Property<string>("MetaDescription")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("MetaKeywords")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("MetaTitle")
                         .HasColumnType("nvarchar(max)");
 
@@ -322,7 +328,7 @@ namespace MyCompany.Migrations
                         {
                             Id = new Guid("6c6a7a28-1b0a-4513-b951-109bb5fbaee0"),
                             CodeWord = "PageIndex",
-                            DateAdded = new DateTime(2021, 1, 26, 15, 22, 9, 42, DateTimeKind.Utc).AddTicks(1684),
+                            DateAdded = new DateTime(2021, 1, 29, 13, 4, 26, 79, DateTimeKind.Utc).AddTicks(112),
                             Text = "Заполняется администратором",
                             Title = "Главная"
                         },
@@ -330,7 +336,7 @@ namespace MyCompany.Migrations
                         {
                             Id = new Guid("fcaa51fb-0684-450d-ac78-a6f8606bfee2"),
                             CodeWord = "PageServices",
-                            DateAdded = new DateTime(2021, 1, 26, 15, 22, 9, 42, DateTimeKind.Utc).AddTicks(3806),
+                            DateAdded = new DateTime(2021, 1, 29, 13, 4, 26, 79, DateTimeKind.Utc).AddTicks(2424),
                             Text = "Заполняется администратором",
                             Title = "Наши услуги"
                         },
@@ -338,7 +344,7 @@ namespace MyCompany.Migrations
                         {
                             Id = new Guid("fec701df-524f-4889-ae4f-78a31e6211d6"),
                             CodeWord = "PageContacts",
-                            DateAdded = new DateTime(2021, 1, 26, 15, 22, 9, 42, DateTimeKind.Utc).AddTicks(3867),
+                            DateAdded = new DateTime(2021, 1, 29, 13, 4, 26, 79, DateTimeKind.Utc).AddTicks(2488),
                             Text = "Заполняется администратором",
                             Title = "Контакты"
                         });

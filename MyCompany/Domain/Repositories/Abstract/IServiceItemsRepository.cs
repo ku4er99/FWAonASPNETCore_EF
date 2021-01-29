@@ -11,7 +11,7 @@ namespace MyCompany.Domain.Repositories.Abstract
     {
         IQueryable<ServiceItem> getServiceItems();
         ServiceItem getServiceItemById(Guid id);
-        void SeveServiceItem(ServiceItem entity);
+        void SaveServiceItem(ServiceItem entity);
         void DeleteServiceItem(Guid id);
     }
 }

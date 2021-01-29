@@ -58,10 +58,19 @@ namespace MyCompany
                 options.SlidingExpiration = true;
             });
 
+            // Настраиваем политику авторизации для Admin area
+            services.AddAuthorization(x =>
+            {
+                x.AddPolicy("AdminArea", policy => { policy.RequireRole("admin"); });
+            });
+
             // Добавляем поддержку контроллеров и представлений (MVC)
-            services.AddControllersWithViews() 
-                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0).AddSessionStateTempDataProvider(); // Выставляем совместимость с asp.net core 3.0 
-        }
+            services.AddControllersWithViews(x =>
+                {
+                    x.Conventions.Add(new AdminAreaAuthorization("Admin","AdminArea"));
+                })
+                // Выставляем совместимость с asp.net core 3.0 
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0).AddSessionStateTempDataProvider();         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -85,6 +94,7 @@ namespace MyCompany
 
             app.UseEndpoints(endpoints => // Регистрируем нужные нам маршруты (ендпоинты)
             {
+                endpoints.MapControllerRoute("admin", "{area:exists}/{controller=Home}/{action=Index}/{id?}"); // Объявляем спец маршрут для области admin
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}"); // Условно: При переходе на site.com/ система маршрутизации будет использовать контроллер HOME, действие INDEX
             });
         }

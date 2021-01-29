@@ -28,7 +28,7 @@ namespace MyCompany.Domain.Repositories.EntityFramework
             return context.ServiceItems.FirstOrDefault(x => x.Id == id);
         }
 
-        public void SeveServiceItem(ServiceItem entity)
+        public void SaveServiceItem(ServiceItem entity)
         {
             if (entity.Id == default)
                 context.Entry(entity).State = EntityState.Added;
